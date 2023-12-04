@@ -1,6 +1,8 @@
 package com.example.demo.controllers
 
 import com.example.demo.models.Cart
+import com.example.demo.models.ClothesColors
+import com.example.demo.models.ClothesSizeClothes
 import com.example.demo.models.dto.CartDTO
 import com.example.demo.repositories.CartRepository
 import com.example.demo.repositories.ClothesColorsRepository
@@ -28,10 +30,23 @@ class CartController (@Autowired private val cartRepository: CartRepository,
         return cartRepository.findByUserId(userId).toList()
     }
 
+    @GetMapping("/user/{userId}/clothes/{clothesId}/size/{sizeId}/color/{colorId}")
+    fun checkIfItemExistsInCart(
+        @PathVariable userId: Long,
+        @PathVariable sizeId: Long,
+        @PathVariable colorId: Long,
+        @PathVariable clothesId : Long
+    ): Any {
+
+        val existingCart = cartRepository
+            .findBySizeClothesSizeClothesIdAndColorClothesCartColorsColorIdAndSizeClothesClothesIdClothesAndUserId(sizeId, colorId, clothesId, userId)
+
+        return existingCart?.id ?: -1
+    }
+
     @Transactional
     @PostMapping("")
     fun createCart(cart: CartDTO): ResponseEntity<Cart> {
-
        val existingColorClothesCart = this.clothesColorsRepository.findById(cart.colorClothes.toLong()).orElse(null)
         val existingUser = this.userRepository.findById(cart.user.toLong()).orElse(null)
         val existingSizeClothes = this.clothesSizeClothesRepository.findById(cart.sizeClothes.toLong()).orElse(null)

@@ -11,8 +11,7 @@ data class User (
     var id: Long = 0,
     @Column(unique = true)
     var username: String = "",
-    @Column(unique = true)
-   var password: String = "",
+
     var passwordHash: String = "",
     @Column(unique = true)
     var email: String = "",
@@ -28,14 +27,21 @@ data class User (
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     val cart : List<Cart> = arrayListOf(),
+
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     val userAddress : List<UserAddress> = arrayListOf(),
+
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     val userCard : List<UserCard> = arrayListOf(),
+
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     val userOrder : List<UserOrder> = arrayListOf(),
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    val userLog : List<UserLogs> = arrayListOf(),
 )
 

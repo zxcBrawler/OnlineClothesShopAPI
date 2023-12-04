@@ -4,6 +4,7 @@ import com.example.demo.models.User
 import com.example.demo.models.dto.RegisterDTO
 import com.example.demo.repositories.UserRepository
 import com.example.demo.service.UserService
+import org.mindrot.jbcrypt.BCrypt
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -37,7 +38,7 @@ class UserController (@Autowired private val userRepository: UserRepository) {
 
         val updatedUser = existingUser.copy(
             username = user.username,
-            password = user.password,
+            passwordHash = BCrypt.hashpw(user.password, BCrypt.gensalt()),
             phoneNumber = user.phoneNumber,
             profilePhoto = user.profilePhoto,
             email = user.email,

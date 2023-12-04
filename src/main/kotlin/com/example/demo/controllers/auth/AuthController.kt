@@ -10,6 +10,7 @@ import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import jakarta.servlet.http.Cookie
 import jakarta.servlet.http.HttpServletResponse
+import org.mindrot.jbcrypt.BCrypt
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.util.*
@@ -22,7 +23,6 @@ class AuthController (private val userService: UserService) {
     fun register(body: RegisterDTO) : ResponseEntity<User> {
         val user = User()
         user.username = body.username
-        user.password = body.password
         user.email = body.email
         user.phoneNumber = body.phoneNumber
         user.profilePhoto = body.profilePhoto

@@ -15,7 +15,7 @@ class UserService (private val userRepository: UserRepository) {
         return this.userRepository.findByEmail(email)
     }
     fun setPassword(user: User) : String {
-        user.passwordHash = BCrypt.hashpw(user.password, BCrypt.gensalt())
+        user.passwordHash = BCrypt.hashpw(user.passwordHash, BCrypt.gensalt())
         return user.passwordHash
     }
     fun comparePassword(password: String, user: User): Boolean{

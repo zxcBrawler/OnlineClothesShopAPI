@@ -1,5 +1,6 @@
 package com.example.demo.models
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 
 @Entity
@@ -10,4 +11,8 @@ data class StatusOrder(
     val idStatus: Long = 0,
     @Column(unique = true)
     val nameStatus: String = "",
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "status")
+    val orderStatusLogStatus : List<OrderStatusLog> = arrayListOf(),
 )
