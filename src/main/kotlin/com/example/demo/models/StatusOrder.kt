@@ -1,5 +1,6 @@
 package com.example.demo.models
 
+import com.example.demo.models.logs.OrderStatusLog
 import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 

@@ -1,7 +1,7 @@
-package com.example.demo.models
+package com.example.demo.models.logs
 
+import com.example.demo.models.User
 import jakarta.persistence.*
-import java.sql.Timestamp
 
 
 @Entity

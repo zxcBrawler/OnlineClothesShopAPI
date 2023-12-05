@@ -12,7 +12,7 @@ data class DeliveryInfo(
     //DONE
     @OneToOne
     @JoinColumn(name = "order_id")
-    val order: Orders = Orders(), // order id
+    val order: Order = Order(), // order id
 
     //DONE
     @OneToOne

@@ -5,7 +5,7 @@ import jakarta.persistence.*
 
 @Entity
 @Table(name = "color")
-data class Colors(
+data class Color(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val colorId: Long = 0,

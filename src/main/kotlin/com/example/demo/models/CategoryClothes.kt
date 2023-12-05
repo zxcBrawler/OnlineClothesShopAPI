@@ -16,4 +16,8 @@ data class CategoryClothes (
     @OneToMany(mappedBy = "categoryClothes")
     var typeList : List<TypeClothes> = arrayListOf(),
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "gender")
+    var userGender: List<User> = arrayListOf(),
+
 )

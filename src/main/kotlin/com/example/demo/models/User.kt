@@ -1,5 +1,6 @@
 package com.example.demo.models
 
+import com.example.demo.models.logs.UserLogs
 import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 
@@ -11,7 +12,7 @@ data class User (
     var id: Long = 0,
     @Column(unique = true)
     var username: String = "",
-
+    @Column(length = 60)
     var passwordHash: String = "",
     @Column(unique = true)
     var email: String = "",
@@ -20,9 +21,8 @@ data class User (
 
     var profilePhoto: String = "",
 
-    @OneToOne
-    @JoinColumn(name = "gender_id")
-    var gender: CategoryClothes = CategoryClothes(),
+    @ManyToOne
+    var gender : CategoryClothes = CategoryClothes(),
 
     @JsonIgnore
     @OneToMany(mappedBy = "user")

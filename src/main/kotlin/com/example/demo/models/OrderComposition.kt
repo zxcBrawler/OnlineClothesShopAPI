@@ -1,7 +1,6 @@
 package com.example.demo.models
 
 import jakarta.persistence.*
-import jakarta.persistence.criteria.Order
 
 
 @Entity
@@ -17,7 +16,7 @@ data class OrderComposition(
 
     //DONE
     @ManyToOne
-    val orderId: Orders = Orders(),
+    val orderId: com.example.demo.models.Order = Order(),
 
     val quantity: Int = 0,
 )

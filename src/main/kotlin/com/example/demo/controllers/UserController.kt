@@ -2,6 +2,7 @@ package com.example.demo.controllers
 
 import com.example.demo.models.User
 import com.example.demo.models.dto.RegisterDTO
+import com.example.demo.repositories.CategoryClothesRepository
 import com.example.demo.repositories.UserRepository
 import com.example.demo.service.UserService
 import org.mindrot.jbcrypt.BCrypt
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping(value = ["/api/users"])
-class UserController (@Autowired private val userRepository: UserRepository) {
+class UserController (
+    @Autowired private val userRepository: UserRepository,
+    @Autowired private val categoryClothesRepository: CategoryClothesRepository) {
     @GetMapping("")
     fun getAllUsers(): List<User> =
         userRepository.findAll().toList()
@@ -31,18 +34,20 @@ class UserController (@Autowired private val userRepository: UserRepository) {
     }
 
     @PutMapping("/{id}")
-    fun updateUserById(@PathVariable("id") userId: Long, @RequestBody user: RegisterDTO): ResponseEntity<User> {
+    fun updateUserById(@PathVariable("id") userId: Long, user: RegisterDTO): ResponseEntity<User> {
 
         val existingUser = userRepository.findById(userId).orElse(null)
             ?: return ResponseEntity(HttpStatus.NOT_FOUND)
 
+        val existingGender = categoryClothesRepository.findById(user.gender.toLong()).orElse(null)
+
         val updatedUser = existingUser.copy(
             username = user.username,
-            passwordHash = BCrypt.hashpw(user.password, BCrypt.gensalt()),
+            passwordHash = BCrypt.hashpw(user.passwordHash, BCrypt.gensalt()),
             phoneNumber = user.phoneNumber,
             profilePhoto = user.profilePhoto,
             email = user.email,
-            gender = user.gender)
+            gender = existingGender)
         userRepository.save(updatedUser)
         return ResponseEntity(updatedUser, HttpStatus.OK)
     }

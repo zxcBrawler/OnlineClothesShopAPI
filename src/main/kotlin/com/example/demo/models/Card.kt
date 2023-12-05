@@ -10,11 +10,11 @@ data class Card(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
-    val cardNum: String = "",
-    val expDate: String = "",
-    val cvv: String = "",
+    var cardNum: String = "",
+    var expDate: String = "",
+    var cvv: String = "",
 
     @JsonIgnore
-    @OneToMany(mappedBy = "card")
+    @OneToMany(mappedBy = "card", cascade = [CascadeType.ALL])
     val userCard : List<UserCard> = arrayListOf(),
 )

@@ -1,23 +1,24 @@
 package com.example.demo.models
 
+import com.example.demo.models.logs.OrderStatusLog
 import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 
 @Entity
 @Table(name = "orders")
-data class Orders(
+data class Order(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val idOrder: Long = 0,
     @Column(unique = true)
-    val numberOrder: String = "",
-    val timeOrder: String = "",
-    val dateOrder: String = "",
-    val sumOrder: String = "",
+    var numberOrder: String = "",
+    var timeOrder: String = "",
+    var dateOrder: String = "",
+    var sumOrder: String = "",
 
     @OneToOne
     @JoinColumn(name = "status_id")
-    val currentStatus: StatusOrder = StatusOrder(),
+    var currentStatus: StatusOrder = StatusOrder(),
 
     @JsonIgnore
     @OneToMany(mappedBy = "orderId")
@@ -32,5 +33,5 @@ data class Orders(
     val orderStatusLogOrder : List<OrderStatusLog> = arrayListOf(),
 
     @ManyToOne
-    val userCard: UserCard = UserCard(),
+    var userCard: UserCard = UserCard(),
 )

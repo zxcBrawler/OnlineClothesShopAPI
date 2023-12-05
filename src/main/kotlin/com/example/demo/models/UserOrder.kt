@@ -10,8 +10,8 @@ data class UserOrder(
     val userOrderId: Long = 0,
 
     @ManyToOne
-    val user: User = User(),
+    var user: User = User(),
 
     @ManyToOne
-    val orders: Orders = Orders(),
+    var orders: Order = Order(),
 )

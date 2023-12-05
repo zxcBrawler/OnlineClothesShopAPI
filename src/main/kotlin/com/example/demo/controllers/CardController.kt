@@ -2,6 +2,7 @@ package com.example.demo.controllers
 
 import com.example.demo.models.Card
 import com.example.demo.models.Cart
+import com.example.demo.models.dto.CardDTO
 import com.example.demo.repositories.CardRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -23,13 +24,17 @@ class CardController(@Autowired private val cardRepository: CardRepository) {
         else ResponseEntity(HttpStatus.NOT_FOUND)
     }
 
-    @PostMapping("")
-    fun createCard(@RequestBody card: Card): ResponseEntity<Card> {
-        val createdCard = cardRepository.save(card)
+  /*  @PostMapping("")
+    fun createCard(card: CardDTO): ResponseEntity<Card> {
+        val newCard = Card()
+        newCard.cardNum = card.cardNum
+        newCard.cvv = card.cvv
+        newCard.expDate = card.expDate
+        val createdCard = cardRepository.save(newCard)
         return ResponseEntity(createdCard, HttpStatus.CREATED)
-    }
+    }*/
     @PutMapping("/{id}")
-    fun updateCardById(@PathVariable("id") cardId: Long, @RequestBody card: Card): ResponseEntity<Card> {
+    fun updateCardById(@PathVariable("id") cardId: Long, card: CardDTO): ResponseEntity<Card> {
 
         val existingCard = cardRepository.findById(cardId).orElse(null)
             ?: return ResponseEntity(HttpStatus.NOT_FOUND)
@@ -39,6 +44,7 @@ class CardController(@Autowired private val cardRepository: CardRepository) {
             expDate = card.expDate,
             cvv = card.cvv,
         )
+
         cardRepository.save(updatedCard)
         return ResponseEntity(updatedCard, HttpStatus.OK)
     }

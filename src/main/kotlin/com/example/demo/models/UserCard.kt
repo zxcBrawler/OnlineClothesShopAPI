@@ -1,5 +1,6 @@
 package com.example.demo.models
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 
 
@@ -12,9 +13,13 @@ data class UserCard(
 
     //DONE
     @ManyToOne
-    val user: User = User(),
+    var user: User = User(),
 
     //DONE
-    @ManyToOne
-    val card: Card = Card(),
+    @ManyToOne(cascade = [CascadeType.ALL])
+    var card: Card = Card(),
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "userCard")
+    val cardOrder : List<Order> = arrayListOf()
 )

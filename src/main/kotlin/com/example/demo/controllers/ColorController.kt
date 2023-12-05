@@ -1,6 +1,6 @@
 package com.example.demo.controllers
 
-import com.example.demo.models.Colors
+import com.example.demo.models.Color
 import com.example.demo.repositories.ColorRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -12,24 +12,24 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/api/colors")
 class ColorController (@Autowired private val colorRepository: ColorRepository)  {
     @GetMapping("")
-    fun getAllColors(): List<Colors> =
+    fun getAllColors(): List<Color> =
         colorRepository.findAll().toList()
 
     @PostMapping("")
-    fun createColors(@RequestBody colors: Colors): ResponseEntity<Colors> {
+    fun createColors(@RequestBody colors: Color): ResponseEntity<Color> {
         val createdColors = colorRepository.save(colors)
         return ResponseEntity(createdColors, HttpStatus.CREATED)
     }
 
     @GetMapping("/{id}")
-    fun getColorsById(@PathVariable("id") colorsId: Long): ResponseEntity<Colors> {
+    fun getColorsById(@PathVariable("id") colorsId: Long): ResponseEntity<Color> {
         val colors = colorRepository.findById(colorsId).orElse(null)
         return if (colors != null) ResponseEntity(colors, HttpStatus.OK)
         else ResponseEntity(HttpStatus.NOT_FOUND)
     }
 
     @PutMapping("/{id}")
-    fun updateColorsById(@PathVariable("id") colorsId: Long, @RequestBody colors: Colors): ResponseEntity<Colors> {
+    fun updateColorsById(@PathVariable("id") colorsId: Long, @RequestBody colors: Color): ResponseEntity<Color> {
 
         val existingColors = colorRepository.findById(colorsId).orElse(null)
             ?: return ResponseEntity(HttpStatus.NOT_FOUND)
@@ -41,7 +41,7 @@ class ColorController (@Autowired private val colorRepository: ColorRepository) 
     }
 
     @DeleteMapping("/{id}")
-    fun deleteColorsById(@PathVariable("id") colorsId: Long): ResponseEntity<Colors> {
+    fun deleteColorsById(@PathVariable("id") colorsId: Long): ResponseEntity<Color> {
         if (!colorRepository.existsById(colorsId)) {
             return ResponseEntity(HttpStatus.NOT_FOUND)
         }

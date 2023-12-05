@@ -15,7 +15,7 @@ data class ClothesColors(
     val clothes: Clothes = Clothes(),
 
     @ManyToOne
-    val colors: Colors = Colors(),
+    val colors: Color = Color(),
 
     @JsonIgnore
     @OneToMany(mappedBy = "colorClothesCart")
