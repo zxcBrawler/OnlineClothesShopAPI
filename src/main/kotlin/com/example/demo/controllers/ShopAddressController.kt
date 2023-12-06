@@ -15,18 +15,18 @@ class ShopAddressesController (@Autowired private val shopAddressesRepository: S
     fun getAllShopAddresses(): List<ShopAddresses> =
         shopAddressesRepository.findAll().toList()
 
-    @PostMapping("")
-    fun createShopAddresses(@RequestBody shopAddresses: ShopAddresses): ResponseEntity<ShopAddresses> {
-        val createdShopAddresses = shopAddressesRepository.save(shopAddresses)
-        return ResponseEntity(createdShopAddresses, HttpStatus.CREATED)
-    }
-
     @GetMapping("/{id}")
     fun getShopAddressesById(@PathVariable("id") shopAddressesId: Int): ResponseEntity<ShopAddresses> {
         val shopAddresses = shopAddressesRepository.findById(shopAddressesId.toLong()).orElse(null)
         return ResponseEntity(shopAddresses, HttpStatus.OK)
     }
 
+    //Admin only
+    @PostMapping("")
+    fun createShopAddresses(@RequestBody shopAddresses: ShopAddresses): ResponseEntity<ShopAddresses> {
+        val createdShopAddresses = shopAddressesRepository.save(shopAddresses)
+        return ResponseEntity(createdShopAddresses, HttpStatus.CREATED)
+    }
     @PutMapping("/{id}")
     fun updateShopAddressesById(@PathVariable("id") shopAddressesId: Long, @RequestBody shopAddresses: ShopAddresses): ResponseEntity<ShopAddresses> {
 
@@ -48,5 +48,5 @@ class ShopAddressesController (@Autowired private val shopAddressesRepository: S
         shopAddressesRepository.deleteById(shopAddressesId)
         return ResponseEntity(HttpStatus.NO_CONTENT)
     }
-
+    //
 }

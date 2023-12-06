@@ -25,19 +25,19 @@ data class User (
     var gender : CategoryClothes = CategoryClothes(),
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL])
     val cart : List<Cart> = arrayListOf(),
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL])
     val userAddress : List<UserAddress> = arrayListOf(),
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL])
     val userCard : List<UserCard> = arrayListOf(),
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL])
     val userOrder : List<UserOrder> = arrayListOf(),
 
     @JsonIgnore

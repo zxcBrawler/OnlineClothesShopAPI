@@ -3,7 +3,6 @@ package com.example.demo.models.dto
 import com.example.demo.models.CategoryClothes
 
 class RegisterDTO {
-    var password = ""
     var gender = 0
     var email = ""
     var phoneNumber = ""

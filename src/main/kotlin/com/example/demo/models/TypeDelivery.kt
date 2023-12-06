@@ -10,5 +10,4 @@ data class TypeDelivery (
     val id : Long = 0,
     @Column(unique = true)
     var nameType : String = "",
-
 )

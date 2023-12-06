@@ -32,6 +32,7 @@ class AuthController (private val userService: UserService,
         user.phoneNumber = body.phoneNumber
         user.profilePhoto = body.profilePhoto
         user.gender = existingGender
+        user.passwordHash = body.passwordHash
         user.passwordHash = userService.setPassword(user)
         return ResponseEntity.ok(this.userService.saveUser(user))
     }

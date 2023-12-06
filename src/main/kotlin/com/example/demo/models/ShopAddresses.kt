@@ -15,6 +15,8 @@ data class ShopAddresses(
     val shopAddressDirection: String = "", // where shop located exactly
     val shopMetro: String = "", //closest metro station
     val contactNumber: String = "", // contact info
+    val latitude: String = "",
+    val longitude: String = "",
 
     @JsonIgnore
     @OneToMany(mappedBy = "shopAddresses")
