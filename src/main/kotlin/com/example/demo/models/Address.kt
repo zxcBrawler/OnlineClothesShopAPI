@@ -9,8 +9,10 @@ data class Address(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val idAddress: Long = 0,
+    val city : String = "",
     val nameAddress: String = "",
     val directionAddress: String = "",
+
     @JsonIgnore
     @OneToMany(mappedBy = "addresses")
     var shopAddressList : List<DeliveryInfo> = arrayListOf(),

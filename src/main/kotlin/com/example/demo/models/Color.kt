@@ -13,7 +13,12 @@ data class Color(
     val nameColor: String = "",
     @Column(unique = true)
     val hex: String = "",
+
     @JsonIgnore
     @OneToMany(mappedBy = "colors")
-    var colorsList : List<ClothesColors> = arrayListOf()
+    var colorsList : List<ClothesColors> = arrayListOf(),
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "colorClothes")
+    val orderComp : List<OrderComposition> = arrayListOf()
 )

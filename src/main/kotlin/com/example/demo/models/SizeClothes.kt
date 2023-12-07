@@ -14,5 +14,9 @@ data class SizeClothes(
 
     @JsonIgnore
     @OneToMany(mappedBy = "sizeClothes")
-    val sizeClothesList: List<ClothesSizeClothes> = arrayListOf()
+    val sizeClothesList: List<ClothesSizeClothes> = arrayListOf(),
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "sizeClothes")
+    val orderComp : List<OrderComposition> = arrayListOf()
 )

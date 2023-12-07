@@ -13,5 +13,7 @@ interface CartRepository: CrudRepository<Cart, Long> {
     fun findBySizeClothesSizeClothesIdAndColorClothesCartColorsColorIdAndSizeClothesClothesIdClothesAndUserId
                 (sizeId: Long?, colorId : Long?, clothesId : Long?, userId : Long?) : Cart?
 
+    fun deleteAllByUserId (userId: Long) : Any
+
 
 }

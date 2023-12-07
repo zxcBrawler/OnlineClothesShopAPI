@@ -10,20 +10,18 @@ data class DeliveryInfo(
     val id : Long = 0,
 
     //DONE
-    @OneToOne
-    @JoinColumn(name = "order_id")
-    val order: Order = Order(), // order id
-
-    //DONE
-    @OneToOne
-    @JoinColumn(name = "type_delivery_id")
-    val typeDelivery: TypeDelivery = TypeDelivery(),
+    @ManyToOne
+    var order: Order = Order(), // order id
 
     //DONE
     @ManyToOne
-    val shopAddresses: ShopAddresses = ShopAddresses(), // if type delivery is pickup then this value is not null
+    var typeDelivery: TypeDelivery = TypeDelivery(),
 
     //DONE
     @ManyToOne
-    val addresses: Address = Address(), // if type delivery is home delivery then this value is not null
+    var shopAddresses: ShopAddresses? = ShopAddresses(), // if type delivery is pickup then this value is not null
+
+    //DONE
+    @ManyToOne
+    var addresses: Address? = Address(), // if type delivery is home delivery then this value is not null
 )

@@ -1,13 +1,14 @@
 package com.example.demo.controllers
 
-import com.example.demo.models.Order
-import com.example.demo.models.UserOrder
+import com.example.demo.models.*
+import com.example.demo.models.dto.Message
 import com.example.demo.models.dto.OrderDTO
 import com.example.demo.repositories.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import java.time.LocalDate
 import java.time.LocalTime
 import java.util.*
 
@@ -18,24 +19,35 @@ class UserOrderController(
     @Autowired private val statusOrderRepository: StatusOrderRepository,
     @Autowired private val userRepository: UserRepository,
     @Autowired private val orderRepository: OrdersRepository,
-    @Autowired private val userCardRepository: UserCardRepository
+    @Autowired private val userCardRepository: UserCardRepository,
+    @Autowired private val orderCompositionRepository: OrderCompositionRepository,
+    @Autowired private val addressesRepository: AddressRepository,
+    @Autowired private val shopAddressesRepository: ShopAddressesRepository,
+    @Autowired private val typeDeliveryRepository: TypeDeliveryRepository,
+    @Autowired private val cartRepository: CartRepository,
+    @Autowired private val deliveryInfoRepository: DeliveryInfoRepository,
+    @Autowired private val clothesRepository: ClothesRepository,
+    @Autowired private val colorRepository: ColorRepository,
+    @Autowired private val sizeClothesRepository: SizeClothesRepository,
     ) {
     @GetMapping("")
     fun getAllUserOrders(): List<UserOrder> =
         userOrderRepository.findAll().toList()
 
     @PostMapping("")
-    fun createUserOrder(userOrder: OrderDTO): ResponseEntity<UserOrder> {
+    fun createUserOrder(userOrder: OrderDTO): ResponseEntity<Any> {
         val newUserOrder = UserOrder()
         val order = Order()
+        var orderComp = OrderComposition()
+        val deliveryInfo = DeliveryInfo()
         val generateNumber = Random().nextInt(1,99999)
-        val generatedOrderNumber = (generateNumber + Calendar.YEAR + Calendar.MONTH + Calendar.DAY_OF_YEAR).toString()
+        val generatedOrderNumber = generateNumber.toString() + Calendar.YEAR.toString() + Calendar.MONTH.toString() + Calendar.DAY_OF_YEAR.toString()
         val currentStatus = statusOrderRepository.findById(1).orElse(null)
         val userCard = userCardRepository.findById(userOrder.userCardId).orElse(null)
         val currentUser = userRepository.findById(userCard.user.id).orElse(null)
 
         order.numberOrder = generatedOrderNumber
-        order.dateOrder = Calendar.DATE.toString()
+        order.dateOrder = LocalDate.now().toString()
         order.timeOrder = LocalTime.now().toString()
         order.currentStatus = currentStatus
         order.sumOrder = userOrder.sumOrder
@@ -43,12 +55,36 @@ class UserOrderController(
 
         orderRepository.save(order)
 
+        for (item in userOrder.orderComp){
+            val clothesQuantity = cartRepository.findById(item).orElse(null)
+            orderComp.quantity = clothesQuantity.quantity
+            orderComp.clothesComp = clothesRepository.findById(clothesQuantity.colorClothesCart.clothes.idClothes).orElse(null)
+            orderComp.orderId = orderRepository.findById(order.idOrder).orElse(null)
+            orderComp.colorClothes = colorRepository.findById(clothesQuantity.colorClothesCart.colors.colorId).orElse(null)
+            orderComp.sizeClothes = sizeClothesRepository.findById(clothesQuantity.sizeClothes.sizeClothes.id).orElse(null)
+            orderCompositionRepository.save(orderComp)
+            orderComp = OrderComposition()
+        }
+
         newUserOrder.user = currentUser
         newUserOrder.orders = orderRepository.findById(order.idOrder).orElse(null)
 
         userOrderRepository.save(newUserOrder)
 
-        return ResponseEntity(newUserOrder, HttpStatus.CREATED)
+        deliveryInfo.order = orderRepository.findById(order.idOrder).orElse(null)
+        deliveryInfo.typeDelivery = typeDeliveryRepository.findById(userOrder.typeDelivery).orElse(null)
+        if (userOrder.typeDelivery.toInt() == 1){
+            deliveryInfo.shopAddresses = userOrder.shopAddress?.let { shopAddressesRepository.findById(it).orElse(null) }!!
+            deliveryInfo.addresses = null
+        }
+        else {
+            deliveryInfo.addresses = userOrder.userAddress?.let { addressesRepository.findById(it).orElse(null) }!!
+            deliveryInfo.shopAddresses = null
+        }
+
+        deliveryInfoRepository.save(deliveryInfo)
+
+        return ResponseEntity(Message("Order formed"), HttpStatus.CREATED)
     }
 
     @GetMapping("/{id}")

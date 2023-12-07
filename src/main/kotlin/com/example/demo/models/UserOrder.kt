@@ -12,6 +12,6 @@ data class UserOrder(
     @ManyToOne
     var user: User = User(),
 
-    @ManyToOne
+    @ManyToOne(cascade = [CascadeType.ALL])
     var orders: Order = Order(),
 )

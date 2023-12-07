@@ -12,11 +12,15 @@ data class OrderComposition(
 
     //DONE
     @ManyToOne
-    val clothesComp: Clothes = Clothes(),
+    var clothesComp: Clothes = Clothes(),
+    @ManyToOne
+    var sizeClothes : SizeClothes = SizeClothes(),
+    @ManyToOne
+    var colorClothes: Color = Color(),
 
     //DONE
-    @ManyToOne
-    val orderId: com.example.demo.models.Order = Order(),
+    @ManyToOne(cascade = [CascadeType.ALL])
+    var orderId: Order = Order(),
 
-    val quantity: Int = 0,
+    var quantity: Int = 0,
 )

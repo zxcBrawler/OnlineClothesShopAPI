@@ -16,4 +16,8 @@ data class StatusOrder(
     @JsonIgnore
     @OneToMany(mappedBy = "status")
     val orderStatusLogStatus : List<OrderStatusLog> = arrayListOf(),
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "currentStatus")
+    val orderStatus : List<Order> = arrayListOf()
 )

@@ -4,6 +4,7 @@ import com.example.demo.models.Cart
 import com.example.demo.models.ClothesColors
 import com.example.demo.models.ClothesSizeClothes
 import com.example.demo.models.dto.CartDTO
+import com.example.demo.models.dto.Message
 import com.example.demo.repositories.CartRepository
 import com.example.demo.repositories.ClothesColorsRepository
 import com.example.demo.repositories.ClothesSizeClothesRepository
@@ -82,5 +83,11 @@ class CartController (@Autowired private val cartRepository: CartRepository,
         }
         cartRepository.deleteById(cartId)
         return ResponseEntity(cartRepository.findAll(), HttpStatus.OK)
+    }
+    @Transactional
+    @DeleteMapping("deleteAll/{id}")
+    fun deleteAllByUserId(@PathVariable("id") userId: Long): ResponseEntity<Any> {
+        cartRepository.deleteAllByUserId(userId)
+        return ResponseEntity(Message("Successfully deleted"), HttpStatus.OK)
     }
 }

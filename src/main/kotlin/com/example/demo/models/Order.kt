@@ -16,17 +16,20 @@ data class Order(
     var dateOrder: String = "",
     var sumOrder: String = "",
 
-    @OneToOne
-    @JoinColumn(name = "status_id")
+    @ManyToOne
     var currentStatus: StatusOrder = StatusOrder(),
 
     @JsonIgnore
-    @OneToMany(mappedBy = "orderId")
+    @OneToMany(mappedBy = "orderId", cascade = [CascadeType.ALL])
     var orderId : List<OrderComposition> = arrayListOf(),
 
     @JsonIgnore
-    @OneToMany(mappedBy = "orders")
+    @OneToMany(mappedBy = "orders", cascade = [CascadeType.ALL])
     val userOrder : List<UserOrder> = arrayListOf(),
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "order")
+    val deliveryInfo : List<DeliveryInfo> = arrayListOf(),
 
     @JsonIgnore
     @OneToMany(mappedBy = "orders")
