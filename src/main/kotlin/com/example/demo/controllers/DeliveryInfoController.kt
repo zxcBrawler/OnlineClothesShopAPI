@@ -16,10 +16,9 @@ class DeliveryInfoController (@Autowired private val deliveryInfoRepository: Del
     fun getAllDeliveryInfo(): List<DeliveryInfo> =
         deliveryInfoRepository.findAll().toList()
 
-    @PostMapping("")
-    fun createDeliveryInfo(@RequestBody deliveryInfo: DeliveryInfo): ResponseEntity<DeliveryInfo> {
-        val createdDeliveryInfo = deliveryInfoRepository.save(deliveryInfo)
-        return ResponseEntity(createdDeliveryInfo, HttpStatus.CREATED)
+    @GetMapping("/{orderId}")
+    fun getDeliveryInfoByOrderId(@PathVariable("orderId") id : Long) : ResponseEntity<DeliveryInfo>{
+        return ResponseEntity(deliveryInfoRepository.findByOrderIdOrder(id),HttpStatus.OK)
     }
 
     @GetMapping("/{id}")

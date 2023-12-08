@@ -1,5 +1,6 @@
 package com.example.demo.controllers
 
+import com.example.demo.models.DeliveryInfo
 import com.example.demo.models.OrderComposition
 import com.example.demo.repositories.OrderCompositionRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,10 +22,8 @@ class OrderCompositionController (@Autowired private val orderCompositionReposit
     }
 
     @GetMapping("/{id}")
-    fun getOrderCompById(@PathVariable("id") orderCompId: Long): ResponseEntity<OrderComposition> {
-        val orderComp = orderCompositionRepository.findById(orderCompId).orElse(null)
-        return if (orderComp != null) ResponseEntity(orderComp, HttpStatus.OK)
-        else ResponseEntity(HttpStatus.NOT_FOUND)
+    fun getOrderCompInfoByOrderId(@PathVariable("id") id : Long) : ResponseEntity<List<OrderComposition>>{
+        return ResponseEntity(orderCompositionRepository.findByOrderIdIdOrder(id),HttpStatus.OK)
     }
 
     @DeleteMapping("/{id}")

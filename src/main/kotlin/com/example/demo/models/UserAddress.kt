@@ -11,9 +11,9 @@ data class UserAddress(
 
     //DONE
     @ManyToOne
-    val user: User = User(),
+    var user: User = User(),
 
     //DONE
-    @ManyToOne
-    val address: Address = Address(),
+    @ManyToOne(cascade = [CascadeType.ALL])
+    var address: Address = Address(),
 )

@@ -4,4 +4,6 @@ import com.example.demo.models.DeliveryInfo
 import org.springframework.data.repository.CrudRepository
 
 interface DeliveryInfoRepository : CrudRepository<DeliveryInfo, Long> {
+
+    fun findByOrderIdOrder (orderId : Long) : DeliveryInfo
 }

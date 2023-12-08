@@ -9,15 +9,15 @@ data class Address(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val idAddress: Long = 0,
-    val city : String = "",
-    val nameAddress: String = "",
-    val directionAddress: String = "",
+    var city : String = "",
+    var nameAddress: String = "",
+    var directionAddress: String = "",
 
     @JsonIgnore
     @OneToMany(mappedBy = "addresses")
     var shopAddressList : List<DeliveryInfo> = arrayListOf(),
     @JsonIgnore
-    @OneToMany(mappedBy = "address")
+    @OneToMany(mappedBy = "address", cascade = [CascadeType.ALL])
     var userAddressList : List<UserAddress> = arrayListOf()
 
 
